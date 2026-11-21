@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+  --paper: #fafaf9;
+  --ink: #171717;
+  --muted: #626262;
+  --line: #e5e5e5;
+}
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Geist, Inter, "Segoe UI", system-ui, sans-serif;
+}
+::selection { background: #e5e5e5; color: var(--ink); }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+
+@layer components {
+  .shell { @apply mx-auto w-full max-w-[66rem] px-5 sm:px-8; }
+  .page-title { @apply text-4xl font-semibold tracking-tight sm:text-5xl; }
+  .section-title { @apply text-2xl font-semibold tracking-tight; }
+  .eyebrow { @apply text-xs font-medium tracking-widest uppercase text-[var(--muted)]; }
+  .lede { @apply mt-4 max-w-prose text-base leading-relaxed text-[var(--muted)] sm:text-lg; }
+  .text-link { @apply inline-flex min-h-11 items-center text-sm font-medium underline decoration-neutral-400 underline-offset-4 hover:decoration-neutral-950; }
+  .editorial-row { @apply grid gap-3 border-t border-[var(--line)] py-6 sm:grid-cols-[12rem_1fr] sm:gap-8; }
+}
