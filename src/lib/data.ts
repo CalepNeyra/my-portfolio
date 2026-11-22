@@ -77,10 +77,5 @@ export const personalInfo = {
   portrait: { src: '/images/perfil.png', width: 152, height: 152 },
   specialties: ['Desarrollo web', 'Aplicaciones móviles', 'Bases de datos', 'Programación'],
   technologies: ['Java', 'Python', 'JavaScript', 'TypeScript', 'React', 'Next.js', 'Node.js', 'PHP', 'MySQL', 'PostgreSQL', 'MongoDB'],
-  siteUrl: new URL(
-    process.env.SITE_URL ||
-    (process.env.VERCEL_PROJECT_PRODUCTION_URL
-      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-      : 'http://localhost:3000'),
-  ).origin,
+  siteUrl: new URL(process.env.SITE_URL || 'https://calepneyra.devs.surf').origin,
 };
