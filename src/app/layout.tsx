@@ -2,10 +2,17 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { personalInfo, projects } from '@/lib/data';
+import { personalInfo } from '@/lib/data';
 import './globals.css';
 
 const siteTitle = `${personalInfo.name} - ${personalInfo.title}`;
+const description = `${personalInfo.title}. Portafolio de proyectos de desarrollo web, móvil y bases de datos.`;
+const socialPortrait = {
+  url: personalInfo.portrait.src,
+  width: personalInfo.portrait.width,
+  height: personalInfo.portrait.height,
+  alt: `Retrato de ${personalInfo.name}`,
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(personalInfo.siteUrl),
@@ -13,23 +20,23 @@ export const metadata: Metadata = {
     default: siteTitle,
     template: `%s | ${personalInfo.name}`,
   },
-  description: personalInfo.description,
-  keywords: ['Tecsup', 'desarrollo de software', 'portafolio académico', ...personalInfo.technologies],
+  description,
+  keywords: ['Tecsup', 'desarrollo de software', 'portafolio', ...personalInfo.technologies],
   authors: [{ name: personalInfo.name }],
   creator: personalInfo.name,
   openGraph: {
     type: 'website',
     locale: 'es_PE',
     title: siteTitle,
-    description: personalInfo.description,
+    description,
     siteName: personalInfo.name,
-    images: [projects[0].image],
+    images: [socialPortrait],
   },
   twitter: {
-    card: 'summary_large_image',
+    card: 'summary',
     title: siteTitle,
-    description: personalInfo.description,
-    images: [projects[0].image],
+    description,
+    images: [socialPortrait],
   },
   robots: {
     index: true,

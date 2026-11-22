@@ -2,8 +2,12 @@ export interface Project {
   slug: string;
   title: string;
   description: string;
-  image: string;
+  kind: 'project' | 'academic-demo';
+  status?: string;
+  image?: { src: string; width: number; height: number };
   technologies: string[];
+  progress?: string;
+  planned?: string;
   demoUrl?: string;
   githubUrl?: string;
   featured: boolean;

@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { projects } from '@/lib/data';
+import ProjectLinks from '@/components/ProjectLinks';
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -20,21 +21,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: 'Proyecto no encontrado' };
   }
 
+  const url = `/projects/${project.slug}`;
+  const images = project.image ? [project.image.src] : undefined;
+
   return {
     title: project.title,
     description: project.description,
-    alternates: { canonical: `/projects/${project.slug}` },
+    alternates: { canonical: url },
     openGraph: {
       title: project.title,
       description: project.description,
-      images: [project.image],
+      url,
+      images,
       type: 'article',
     },
     twitter: {
-      card: 'summary_large_image',
+      card: 'summary',
       title: project.title,
       description: project.description,
-      images: [project.image],
+      images,
     },
   };
 }
@@ -53,35 +58,33 @@ export default async function ProjectDetailPage({ params }: Props) {
         Volver a proyectos
       </Link>
       <article>
-        <p className="eyebrow">Demo académica · Laboratorio 14</p>
-        <h1 className="page-title mt-2 mb-5">{project.title}</h1>
-        <p className="lede mb-6">{project.description}</p>
-        <div className="relative mb-8 aspect-[16/9] max-h-96 w-full overflow-hidden rounded-sm bg-neutral-200">
-          <Image
-            src={project.image}
-            alt=""
-            fill
-            sizes="(min-width: 1056px) 992px, (min-width: 640px) calc(100vw - 64px), calc(100vw - 40px)"
-            loading="eager"
-            className="object-cover"
-          />
+        <div className="mb-6 flex flex-wrap items-start justify-between gap-4 sm:flex-nowrap">
+          <div>
+            <p className="eyebrow">{project.status ?? 'Demo académica · Laboratorio 14'}</p>
+            <h1 className="page-title mt-2">{project.title}</h1>
+            <p className="lede">{project.description}</p>
+          </div>
+          {project.image && (
+            <Image {...project.image} alt="" sizes="96px" className="h-auto w-24 shrink-0" />
+          )}
         </div>
         <div className="editorial-row">
           <h2 className="section-title">Tecnologías</h2>
           <p className="text-sm leading-loose text-[var(--muted)]">{project.technologies.join(' · ')}</p>
         </div>
-        <div className="flex flex-wrap gap-4">
-          {project.demoUrl && (
-            <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className="text-link">
-              Ver Demo
-            </a>
-          )}
-          {project.githubUrl && (
-            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="text-link">
-              Ver Código
-            </a>
-          )}
-        </div>
+        {project.progress && (
+          <section className="editorial-row">
+            <h2 className="section-title">Avance documentado</h2>
+            <p className="max-w-prose leading-relaxed text-[var(--muted)]">{project.progress}</p>
+          </section>
+        )}
+        {project.planned && (
+          <section className="editorial-row">
+            <h2 className="section-title">Funcionalidades previstas</h2>
+            <p className="max-w-prose leading-relaxed text-[var(--muted)]">{project.planned}</p>
+          </section>
+        )}
+        <ProjectLinks project={project} />
       </article>
     </div>
   );
